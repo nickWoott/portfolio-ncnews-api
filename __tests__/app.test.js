@@ -10,7 +10,7 @@ afterAll(() => {
 
 beforeEach(() => seed(testData));
 
-describe.only("GET/api/topics", () => {
+describe("GET/api/topics", () => {
   test("200, response with an object", () => {
     return request(app)
       .get("/api/topics")
@@ -41,12 +41,28 @@ describe.only("GET/api/topics", () => {
         expect(res.body).toEqual(output);
       });
   });
-  test("404, throws error when endpoint not found", () => {
-    return request(app)
-      .get("/api/topic")
-      .expect(404)
-      .then((res) => {
-        expect(res.body.message).toBe("end point not found");
-      });
+  test("404, throws error when endpoint not found", async () => {
+    const results = await request(app).get("/api/topic").expect(404);
+    expect(results.body.message).toBe("end point not found");
+  });
+});
+
+describe.only("GET/api/atircles/:article_id", () => {
+  test("200, returns an object", async () => {
+    const results = await request(app).get("/api/articles/1").expect(200);
+    expect(typeof results.body).toBe("object");
+  });
+  test("200, returns a article object", async () => {
+    const testArticle = {
+      article_id: 1,
+      title: "Living in the shadow of a great man",
+      topic: "mitch",
+      author: "butter_bridge",
+      body: "I find this existence challenging",
+      created_at: "2020-07-09T20:11:00.000Z",
+      votes: 100,
+    };
+    const results = await request(app).get("/api/articles/1").expect(200);
+    expect(results.body).toEqual(testArticle);
   });
 });

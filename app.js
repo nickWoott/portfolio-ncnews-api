@@ -1,10 +1,12 @@
 const express = require("express");
-const { getTopics } = require("./topics.controllers");
+const { getTopics, getArticleById } = require("./controllers");
 const app = express();
 
 app.use(express.json());
 
 app.get("/api/topics", getTopics);
+
+app.get("/api/articles/:article_id", getArticleById);
 
 //below is error handling
 app.use((req, res, next) => {
