@@ -16,7 +16,7 @@ describe.only("GET/api/topics", () => {
       .get("/api/topics")
       .expect(200)
       .then((res) => {
-        expect(typeof res.body).toBe("object");
+        expect(res.body).toBeInstanceOf(Array);
       });
   });
   test("200, provides an array of correct data", () => {
