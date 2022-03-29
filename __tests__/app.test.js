@@ -68,7 +68,7 @@ describe("GET/api/atircles/:article_id", () => {
   });
 });
 
-describe("PATCH/api/articles/:article_id", () => {
+describe.only("PATCH/api/articles/:article_id", () => {
   test("returns an object in as a response", () => {
     return request(app)
       .patch("/api/articles/2")
@@ -93,5 +93,12 @@ describe("PATCH/api/articles/:article_id", () => {
       votes: 5,
     };
     expect(results.body).toEqual(output);
+  });
+  test("returns an error if update body is incorrect format", async () => {
+    const results = await request(app)
+      .patch("/api/articles/2")
+      .send({ incvotes: "WRONG" });
+    expect(400);
+    expect;
   });
 });

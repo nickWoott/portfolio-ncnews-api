@@ -31,11 +31,9 @@ exports.increaseVotes = (req, res, next) => {
   update = req.body;
   updateVotes(articleId, update)
     .then((article) => {
-      console.log(article, "<< the updated article in the controller");
       res.status(200).send(article);
     })
     .catch((err) => {
-      console.log(err);
       next(err);
     });
 };
