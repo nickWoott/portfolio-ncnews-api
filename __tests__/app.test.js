@@ -44,7 +44,7 @@ describe("GET/api/topics", () => {
   });
   test("404, throws error when endpoint not found", async () => {
     const results = await request(app).get("/api/topic").expect(404);
-    expect(results.body.message).toBe("end point not found");
+    expect(results.body.message).toBe("path not found");
   });
 });
 
