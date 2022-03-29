@@ -1,15 +1,5 @@
-const app = require("./app");
-const { selectTopics, selectArticle, updateVotes } = require("./models");
-
-exports.getTopics = (req, res, next) => {
-  selectTopics()
-    .then((topics) => {
-      res.status(200).send(topics);
-    })
-    .catch((err) => {
-      next(err);
-    });
-};
+const app = require("../app");
+const { selectArticle, updateVotes } = require("../models/articles.models");
 
 exports.getArticleById = (req, res, next) => {
   const articleId = req.params.article_id;
@@ -25,7 +15,6 @@ exports.getArticleById = (req, res, next) => {
 exports.increaseVotes = (req, res, next) => {
   articleId = req.params.article_id;
   update = req.body;
-  console.log(update, "<<< here is the update");
   updateVotes(articleId, update)
     .then((article) => {
       if (typeof update.inc_votes !== "number" || !update.inc_votes) {

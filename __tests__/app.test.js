@@ -77,7 +77,7 @@ describe("GET/api/atircles/:article_id", () => {
   });
 });
 
-describe.only("PATCH/api/articles/:article_id", () => {
+describe("PATCH/api/articles/:article_id", () => {
   test("returns an object in as a response", () => {
     return request(app)
       .patch("/api/articles/2")
@@ -122,7 +122,31 @@ describe.only("PATCH/api/articles/:article_id", () => {
   });
 });
 
-// test("404, throws not found error if endpoint does not exsist", async () => {
-//   const results = await request(app).get("/api/articles/27").expect(404);
-//   expect(results.body.msg).toBe("Article not found");
-// });
+describe.only("GET/api/users", () => {
+  test("200, responds with an array", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toBeInstanceOf(Array);
+      });
+  });
+  test("200, responds with an array of usernames", () => {
+    return request(app)
+      .get("/api/users")
+      .expect(200)
+      .then((res) => {
+        const output = [
+          { username: "butter_bridge" },
+          { username: "icellusedkars" },
+          { username: "rogersop" },
+          { username: "lurker" },
+        ];
+        expect(res.body).toEqual(output);
+      });
+  });
+  test("404, throws error when endpoint not found", async () => {
+    const results = await request(app).get("/api/suer").expect(404);
+    expect(results.body.message).toBe("path not found");
+  });
+});
