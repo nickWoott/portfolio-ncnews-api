@@ -25,9 +25,14 @@ exports.getArticleById = (req, res, next) => {
 exports.increaseVotes = (req, res, next) => {
   articleId = req.params.article_id;
   update = req.body;
+  console.log(update, "<<< here is the update");
   updateVotes(articleId, update)
     .then((article) => {
-      res.status(200).send(article);
+      if (typeof update.inc_votes !== "number" || !update.inc_votes) {
+        return Promise.reject({ status: 400, msg: "Bad Request!" });
+      } else {
+        res.status(200).send(article);
+      }
     })
     .catch((err) => {
       next(err);
