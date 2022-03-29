@@ -8,11 +8,13 @@ app.get("/api/topics", getTopics);
 
 app.get("/api/articles/:article_id", getArticleById);
 
+
 app.patch("/api/articles/:article_id", increaseVotes);
 
 //below is error handling
 app.use((req, res, next) => {
   res.status(404).send({ message: "path not found" });
+
 });
 
 //alternative error handler to try later

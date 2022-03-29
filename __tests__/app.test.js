@@ -42,6 +42,7 @@ describe("GET/api/topics", () => {
         expect(res.body).toEqual(output);
       });
   });
+
   test("404, throws error when endpoint not found", async () => {
     const results = await request(app).get("/api/topic").expect(404);
     expect(results.body.message).toBe("path not found");
@@ -65,6 +66,14 @@ describe("GET/api/atircles/:article_id", () => {
     };
     const results = await request(app).get("/api/articles/1").expect(200);
     expect(results.body).toEqual(testArticle);
+  });
+  test("400, throws error when endpoint not found", async () => {
+    const results = await request(app).get("/api/artifiasdgfle").expect(404);
+    expect(results.body.message).toBe("path not found");
+  });
+  test("404, throws not found error if endpoint does not exsist", async () => {
+    const results = await request(app).get("/api/articles/27").expect(404);
+    expect(results.body.msg).toBe("Article not found");
   });
 });
 
