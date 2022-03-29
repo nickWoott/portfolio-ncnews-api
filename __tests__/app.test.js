@@ -68,7 +68,7 @@ describe("GET/api/atircles/:article_id", () => {
   });
 });
 
-describe.only("PATCH/api/articles/:article_id", () => {
+describe("PATCH/api/articles/:article_id", () => {
   test("returns an object in as a response", () => {
     return request(app)
       .patch("/api/articles/2")
@@ -78,7 +78,7 @@ describe.only("PATCH/api/articles/:article_id", () => {
         expect(typeof results.body).toBe("object");
       });
   });
-  test("returns an updated object", async () => {
+  test.only("returns an updated object", async () => {
     const results = await request(app)
       .patch("/api/articles/2")
       .send({ inc_votes: 5 })
@@ -99,6 +99,11 @@ describe.only("PATCH/api/articles/:article_id", () => {
       .patch("/api/articles/2")
       .send({ incvotes: "WRONG" });
     expect(400);
-    expect;
+    expect(results.body.msg).toBe("Bad request");
   });
 });
+
+// test("404, throws not found error if endpoint does not exsist", async () => {
+//   const results = await request(app).get("/api/articles/27").expect(404);
+//   expect(results.body.msg).toBe("Article not found");
+// });
