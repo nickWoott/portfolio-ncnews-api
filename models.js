@@ -20,6 +20,11 @@ exports.updateVotes = async (articleId, update) => {
     "SELECT * FROM articles WHERE article_id = $1",
     [articleId]
   );
+  console.log(results.rows[0], "<< the article to update");
+  console.log(results.rows[0].votes, "<<< the votes property to be updated");
+  console.log(update.inc_votes, "<< the amount to add");
   results.rows[0].votes += update.inc_votes;
+  console.log(results.rows[0], "<< the thing to be returned");
+
   return results.rows[0];
 };
