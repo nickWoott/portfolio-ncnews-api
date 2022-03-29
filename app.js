@@ -1,14 +1,38 @@
 const express = require("express");
-const { getTopics } = require("./topics.controllers");
+const { getTopics, getArticleById } = require("./controllers");
 const app = express();
 
 app.use(express.json());
 
 app.get("/api/topics", getTopics);
 
-//below is error handling
+app.get("/api/articles/:article_id", getArticleById);
+
 app.use((req, res, next) => {
-  res.status(404).send({ message: "end point not found" });
+  res.status(404).send({ message: "path not found" });
+});
+
+//alternative error handler to try later
+// app.all("/*", (req, res, next) => {
+//   res.status(404).send({ msg: "path not found" });
+// });
+
+app.use((err, req, res, next) => {
+  //custom error handler
+  if (err.status) {
+    res.status(err.status).send({ msg: err.msg });
+  } else {
+    next(err);
+  }
+});
+
+app.use((err, req, res, next) => {
+  //psql error handling
+  if (err.code === "22P02") {
+    res.status(400).send({ message: "Bad Request" });
+  } else {
+    next(err);
+  }
 });
 
 app.use((err, req, res, next) => {
