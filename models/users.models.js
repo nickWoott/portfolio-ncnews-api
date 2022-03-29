@@ -5,6 +5,5 @@ exports.selectUsers = async () => {
   const usernames = results.rows.map((user) => {
     return { username: user.username };
   });
-  console.log(usernames);
   return usernames;
 };
