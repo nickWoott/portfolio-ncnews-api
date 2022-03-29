@@ -1,5 +1,5 @@
 const express = require("express");
-const { getTopics, getArticleById } = require("./controllers");
+const { getTopics, getArticleById, increaseVotes } = require("./controllers");
 const app = express();
 
 app.use(express.json());
@@ -8,8 +8,13 @@ app.get("/api/topics", getTopics);
 
 app.get("/api/articles/:article_id", getArticleById);
 
+
+app.patch("/api/articles/:article_id", increaseVotes);
+
+//below is error handling
 app.use((req, res, next) => {
   res.status(404).send({ message: "path not found" });
+
 });
 
 //alternative error handler to try later
@@ -38,5 +43,4 @@ app.use((err, req, res, next) => {
 app.use((err, req, res, next) => {
   res.status(500).send({ message: "internal server error" });
 });
-
 module.exports = app;
