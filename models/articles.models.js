@@ -8,10 +8,6 @@ exports.selectArticle = async (articleId) => {
   const comments = await db.query("SELECT * FROM comments");
   let commentCount = 0;
   comments.rows.forEach((comment) => {
-    console.log(comment, "<<< here is each individual comment");
-    console.log(comment.article_id, "here is the property");
-    console.log(articleId, "<<, this is what we are comparing it to");
-    console.log(commentCount, "<< watch as the comment count increases");
     if (comment.article_id == articleId) {
       commentCount++;
     }
@@ -36,3 +32,5 @@ exports.updateVotes = async (articleId, update) => {
   }
   return results.rows[0];
 };
+
+// exports.selectArticles;

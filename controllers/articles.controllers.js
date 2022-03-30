@@ -1,5 +1,9 @@
 const app = require("../app");
-const { selectArticle, updateVotes } = require("../models/articles.models");
+const {
+  selectArticle,
+  updateVotes,
+  selectArticles,
+} = require("../models/articles.models");
 
 exports.getArticleById = (req, res, next) => {
   const articleId = req.params.article_id;
@@ -27,3 +31,13 @@ exports.increaseVotes = (req, res, next) => {
       next(err);
     });
 };
+
+// exports.getArticles = (req, res, next) => {
+//   selectArticles()
+//     .then((articles) => {
+//       res.status(200).send(articles);
+//     })
+//     .catch((err) => {
+//       next(err);
+//     });
+// };

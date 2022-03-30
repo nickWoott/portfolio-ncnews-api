@@ -49,7 +49,7 @@ describe("GET/api/topics", () => {
   });
 });
 
-describe.only("GET/api/atircles/:article_id", () => {
+describe("GET/api/atircles/:article_id", () => {
   test("200, returns an object", async () => {
     const results = await request(app).get("/api/articles/1").expect(200);
     expect(typeof results.body).toBe("object");
@@ -165,3 +165,14 @@ describe("GET/api/users", () => {
     expect(results.body.message).toBe("path not found");
   });
 });
+
+// describe.only("/api/articles", () => {
+//   test("200, response with an array", () => {
+//     return request(app)
+//       .get("/api/articles")
+//       .expect(200)
+//       .then((res) => {
+//         expect(res.body).toBeInstanceOf(Array);
+//       });
+//   });
+// });
