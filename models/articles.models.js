@@ -1,4 +1,5 @@
 const db = require("../db/connection");
+const { addCommentCount } = require("../utilities/utilities");
 
 exports.selectArticle = async (articleId) => {
   const article = await db.query(
@@ -33,4 +34,13 @@ exports.updateVotes = async (articleId, update) => {
   return results.rows[0];
 };
 
-// exports.selectArticles;
+exports.selectArticles = async () => {
+  const articles = await db.query("SELECT * FROM articles");
+  const comments = await db.query("SELECT * FROM comments");
+  let commentCount = 0;
+  comments.rows.forEach((comment) => {
+    if (comment.article_id == articleId) {
+      commentCount++;
+    }
+  });
+};

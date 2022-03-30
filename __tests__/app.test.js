@@ -166,13 +166,13 @@ describe("GET/api/users", () => {
   });
 });
 
-// describe.only("/api/articles", () => {
-//   test("200, response with an array", () => {
-//     return request(app)
-//       .get("/api/articles")
-//       .expect(200)
-//       .then((res) => {
-//         expect(res.body).toBeInstanceOf(Array);
-//       });
-//   });
-// });
+describe("/api/articles", () => {
+  test("200, response with an array", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toBeInstanceOf(Array);
+      });
+  });
+});
