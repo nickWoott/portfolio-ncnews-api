@@ -63,6 +63,7 @@ describe("GET/api/atircles/:article_id", () => {
       body: "I find this existence challenging",
       created_at: "2020-07-09T20:11:00.000Z",
       votes: 100,
+      comment_count: expect.any(Number),
     };
     const results = await request(app).get("/api/articles/1").expect(200);
     expect(results.body).toEqual(testArticle);
@@ -71,9 +72,23 @@ describe("GET/api/atircles/:article_id", () => {
     const results = await request(app).get("/api/artifiasdgfle").expect(404);
     expect(results.body.message).toBe("path not found");
   });
-  test("404, throws not found error if endpoint does not exsist", async () => {
+  test("404, throws not found error if endpoint does not exist", async () => {
     const results = await request(app).get("/api/articles/27").expect(404);
     expect(results.body.msg).toBe("Article not found");
+  });
+  test("200, comment_count added to response body", async () => {
+    const results = await request(app).get("/api/articles/1").expect(200);
+    const testArticle = {
+      article_id: 1,
+      title: "Living in the shadow of a great man",
+      topic: "mitch",
+      author: "butter_bridge",
+      body: "I find this existence challenging",
+      created_at: "2020-07-09T20:11:00.000Z",
+      votes: 100,
+      comment_count: 11,
+    };
+    expect(results.body).toEqual(testArticle);
   });
 });
 
@@ -122,7 +137,7 @@ describe("PATCH/api/articles/:article_id", () => {
   });
 });
 
-describe.only("GET/api/users", () => {
+describe("GET/api/users", () => {
   test("200, responds with an array", () => {
     return request(app)
       .get("/api/users")
@@ -150,3 +165,14 @@ describe.only("GET/api/users", () => {
     expect(results.body.message).toBe("path not found");
   });
 });
+
+// describe.only("/api/articles", () => {
+//   test("200, response with an array", () => {
+//     return request(app)
+//       .get("/api/articles")
+//       .expect(200)
+//       .then((res) => {
+//         expect(res.body).toBeInstanceOf(Array);
+//       });
+//   });
+// });
