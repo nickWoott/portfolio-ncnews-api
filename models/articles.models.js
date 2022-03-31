@@ -33,22 +33,22 @@ exports.updateVotes = async (articleId, update) => {
   return results.rows[0];
 };
 
-exports.selectArticles = async () => {
-  const articles = await db.query("SELECT * FROM articles");
-  const comments = await db.query("SELECT * FROM comments");
-  let articleArray = [];
-  articles.rows.forEach((article) => {
-    let commentCount = 0;
-    comments.rows.forEach((comment) => {
-      if (comment.article_id === article.article_id) {
-        commentCount++;
-      }
-    });
-    article.comment_count = commentCount;
-    articleArray.push(article);
-  });
-  console.log(articleArray, "<<< in the model");
-  return articleArray;
+exports.selectArticles = async (
+  sortQuery = "created_at",
+  orderQuery = "ASC"
+) => {
+  let queryString = `SELECT articles.*, COUNT(comments.article_id)::INT AS comment_count
+  FROM articles 
+  LEFT JOIN comments ON comments.article_id = articles.article_id`; //WHERE goes after the join  >>  groupby   >>  orderby
+
+  queryString += ` GROUP BY articles.article_id`;
+
+  queryString += ` ORDER BY ${sortQuery} ${orderQuery}`;
+
+  const response = await db.query(queryString);
+
+  console.log(response.rows);
+  return response.rows;
 };
 
 exports.selectComments = async (articleId) => {

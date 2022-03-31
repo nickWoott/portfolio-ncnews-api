@@ -34,7 +34,11 @@ exports.increaseVotes = (req, res, next) => {
 };
 
 exports.getArticles = (req, res, next) => {
-  selectArticles()
+  const orderQuery = req.query.order;
+  const sortQuery = req.query.sort_by;
+  console.log(orderQuery, "<<< here is the order query in the controller");
+  console.log(sortQuery, "<< here is the sort query in the controller");
+  selectArticles(sortQuery, orderQuery)
     .then((articles) => {
       res.status(200).send(articles);
     })

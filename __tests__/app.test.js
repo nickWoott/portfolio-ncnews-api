@@ -166,7 +166,7 @@ describe("GET/api/users", () => {
   });
 });
 
-describe("/api/articles", () => {
+describe.only("/api/articles", () => {
   test("200, response with an array", () => {
     return request(app)
       .get("/api/articles")
@@ -191,15 +191,6 @@ describe("/api/articles", () => {
             comment_count: expect.any(Number),
           });
         });
-      });
-  });
-  test("200: responds with correct comments value", () => {
-    return request(app)
-      .get("/api/articles")
-      .expect(200)
-      .then((res) => {
-        expect(res.body[0].comment_count).toEqual(11);
-        expect(res.body[1].comment_count).toEqual(0);
       });
   });
   test("404 error response if path incorrect", () => {
@@ -243,6 +234,18 @@ describe("GET/api/articles/:article_id/comments", () => {
       .expect(404)
       .then((res) => {
         expect(res.body.msg).toBe("Article not found");
+      });
+  });
+});
+
+describe.only("GET/api/articles/?=sort_by?=order?=topic", () => {
+  test("sort_by defaults to sorted by date", () => {
+    return request(app)
+      .get("/api/articles?order=asc")
+      .expect(200)
+      .then((res) => {
+        console.log(res.body);
+        expect(res.body).toBeSortedBy("created_at", { ascending: true });
       });
   });
 });
