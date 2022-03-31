@@ -36,8 +36,6 @@ app.use((req, res, next) => {
 app.use((err, req, res, next) => {
   //custom error handler
   if (err.status) {
-    console.log(err.status);
-    console.log(err.msg);
     res.status(err.status).send({ msg: err.msg });
   } else {
     next(err);

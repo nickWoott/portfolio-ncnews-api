@@ -58,7 +58,6 @@ exports.selectComments = async (articleId) => {
     [articleId]
   );
   if (!comments.rows.length) {
-    console.log(comments.rows);
     return Promise.reject({ status: 404, msg: "Article not found" });
   } else {
     return comments.rows;
