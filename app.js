@@ -47,8 +47,8 @@ app.use((err, req, res, next) => {
 
 app.use((err, req, res, next) => {
   //psql error handling
-  if (err.code === "22P02") {
-    res.status(400).send({ message: "Bad Request" });
+  if (err.code === "22P02" || err.code === "23502") {
+    res.status(400).send({ msg: "Bad Request" });
   } else {
     next(err);
   }

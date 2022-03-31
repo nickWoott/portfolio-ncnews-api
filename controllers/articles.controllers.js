@@ -60,10 +60,10 @@ exports.postComment = (req, res, next) => {
   const update = req.body;
   insertComment(article_id, update)
     .then((newComment) => {
-      console.log(newComment.rows[0], "<<< updated comment");
       res.status(200).send(newComment.rows[0]);
     })
     .catch((err) => {
+      console.log(err);
       next(err);
     });
 };

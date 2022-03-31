@@ -279,4 +279,16 @@ describe.only("POST/api/:article_id/comments", () => {
         });
       });
   });
+  test("400: returns error if request body is in incorrect format", () => {
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send({
+        name: "rogersop",
+        myComment: "This is the greatest thing I've ever read",
+      })
+      .expect(400)
+      .then((res) => {
+        expect(res.body.msg).toBe("Bad Request");
+      });
+  });
 });
