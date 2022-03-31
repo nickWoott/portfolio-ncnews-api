@@ -63,7 +63,6 @@ exports.postComment = (req, res, next) => {
       res.status(200).send(newComment.rows[0]);
     })
     .catch((err) => {
-      console.log(err);
       next(err);
     });
 };
