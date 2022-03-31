@@ -3,6 +3,7 @@ const {
   getArticles,
   getArticleById,
   increaseVotes,
+  getComments,
 } = require("./controllers/articles.controllers");
 const { getTopics } = require("./controllers/topics.controllers");
 const { getUsers } = require("./controllers/users.controllers");
@@ -18,7 +19,9 @@ app.patch("/api/articles/:article_id", increaseVotes);
 
 app.get("/api/users", getUsers);
 
-// app.get("/api/articles", getArticles);
+app.get("/api/articles", getArticles);
+
+app.get("/api/articles/:article_id/comments", getComments);
 
 //below is error handling
 app.use((req, res, next) => {

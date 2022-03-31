@@ -33,4 +33,32 @@ exports.updateVotes = async (articleId, update) => {
   return results.rows[0];
 };
 
-// exports.selectArticles;
+exports.selectArticles = async () => {
+  const articles = await db.query("SELECT * FROM articles");
+  const comments = await db.query("SELECT * FROM comments");
+  let articleArray = [];
+  articles.rows.forEach((article) => {
+    let commentCount = 0;
+    comments.rows.forEach((comment) => {
+      if (comment.article_id === article.article_id) {
+        commentCount++;
+      }
+    });
+    article.comment_count = commentCount;
+    articleArray.push(article);
+  });
+  console.log(articleArray, "<<< in the model");
+  return articleArray;
+};
+
+exports.selectComments = async (articleId) => {
+  const comments = await db.query(
+    "SELECT comment_id, votes, created_at, author, body FROM comments WHERE article_id = $1;",
+    [articleId]
+  );
+  if (!comments.rows.length) {
+    return Promise.reject({ status: 404, msg: "Article not found" });
+  } else {
+    return comments.rows;
+  }
+};
