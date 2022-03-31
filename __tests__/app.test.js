@@ -166,7 +166,7 @@ describe("GET/api/users", () => {
   });
 });
 
-describe.only("/api/articles", () => {
+describe("/api/articles", () => {
   test("200, response with an array", () => {
     return request(app)
       .get("/api/articles")
@@ -190,6 +190,41 @@ describe.only("/api/articles", () => {
       .expect(404)
       .then((res) => {
         expect(res.body.message).toBe("path not found");
+      });
+  });
+});
+
+describe.only("GET/api/articles/:article_id/comments", () => {
+  test("200: returns an array", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toBeInstanceOf(Array);
+      });
+  });
+  test("200: returns an array with correct properties", () => {
+    return request(app)
+      .get("/api/articles/1/comments")
+      .expect(200)
+      .then((res) => {
+        res.body.forEach((comment) => {
+          expect(comment).toMatchObject({
+            comment_id: expect.any(Number),
+            votes: expect.any(Number),
+            created_at: expect.any(String),
+            author: expect.any(String),
+            body: expect.any(String),
+          });
+        });
+      });
+  });
+  test("404 article not found", () => {
+    return request(app)
+      .get("/api/articles/25/comments")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.msg).toBe("Article not found");
       });
   });
 });

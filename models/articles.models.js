@@ -51,3 +51,16 @@ exports.selectArticles = async () => {
   console.log(articleArray, "<<< in the model");
   return articleArray;
 };
+
+exports.selectComments = async (articleId) => {
+  const comments = await db.query(
+    "SELECT comment_id, votes, created_at, author, body FROM comments WHERE article_id = $1;",
+    [articleId]
+  );
+  if (!comments.rows.length) {
+    console.log(comments.rows);
+    return Promise.reject({ status: 404, msg: "Article not found" });
+  } else {
+    return comments.rows;
+  }
+};
