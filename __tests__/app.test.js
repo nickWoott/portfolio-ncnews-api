@@ -260,4 +260,23 @@ describe.only("POST/api/:article_id/comments", () => {
         expect(typeof res.body).toBe("object");
       });
   });
+  test("200: returns new comment in correct format", () => {
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send({
+        username: "rogersop",
+        body: "This is the greatest thing I've ever read",
+      })
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toMatchObject({
+          comment_id: expect.any(Number),
+          body: expect.any(String),
+          article_id: expect.any(Number),
+          author: expect.any(String),
+          votes: expect.any(Number),
+          created_at: expect.any(String),
+        });
+      });
+  });
 });

@@ -58,11 +58,10 @@ exports.getComments = (req, res, next) => {
 exports.postComment = (req, res, next) => {
   const { article_id } = req.params;
   const update = req.body;
-  console.log(article_id, "<<< article id in the controller");
-  console.log(update, "<<< comment in the controller");
   insertComment(article_id, update)
     .then((newComment) => {
-      res.status(200).send(newComment);
+      console.log(newComment.rows[0], "<<< updated comment");
+      res.status(200).send(newComment.rows[0]);
     })
     .catch((err) => {
       next(err);

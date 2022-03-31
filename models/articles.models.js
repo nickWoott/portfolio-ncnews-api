@@ -68,6 +68,5 @@ exports.insertComment = async (article_id, update) => {
     "INSERT INTO comments (body, author, article_id) VALUES ($1, $2, $3) RETURNING *;",
     [update.body, update.username, article_id]
   );
-  console.log(postedComment);
   return postedComment;
 };
