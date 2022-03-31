@@ -175,7 +175,25 @@ describe("/api/articles", () => {
         expect(res.body).toBeInstanceOf(Array);
       });
   });
-  test("200: responds with updated comments", () => {
+  test("200: responds with correct properties", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((res) => {
+        res.body.forEach((article) => {
+          expect(article).toMatchObject({
+            author: expect.any(String),
+            title: expect.any(String),
+            article_id: expect.any(Number),
+            topic: expect.any(String),
+            created_at: expect.any(String),
+            votes: expect.any(Number),
+            comment_count: expect.any(Number),
+          });
+        });
+      });
+  });
+  test("200: responds with correct comments value", () => {
     return request(app)
       .get("/api/articles")
       .expect(200)
@@ -194,7 +212,7 @@ describe("/api/articles", () => {
   });
 });
 
-describe.only("GET/api/articles/:article_id/comments", () => {
+describe("GET/api/articles/:article_id/comments", () => {
   test("200: returns an array", () => {
     return request(app)
       .get("/api/articles/1/comments")

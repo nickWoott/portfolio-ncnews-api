@@ -1,5 +1,4 @@
 const db = require("../db/connection");
-const { addCommentCount } = require("../utilities/utilities");
 
 exports.selectArticle = async (articleId) => {
   const article = await db.query(
