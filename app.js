@@ -4,6 +4,7 @@ const {
   getArticleById,
   increaseVotes,
   getComments,
+  postComment,
 } = require("./controllers/articles.controllers");
 const { getTopics } = require("./controllers/topics.controllers");
 const { getUsers } = require("./controllers/users.controllers");
@@ -22,6 +23,8 @@ app.get("/api/users", getUsers);
 app.get("/api/articles", getArticles);
 
 app.get("/api/articles/:article_id/comments", getComments);
+
+app.post("/api/articles/:article_id/comments", postComment);
 
 //below is error handling
 app.use((req, res, next) => {

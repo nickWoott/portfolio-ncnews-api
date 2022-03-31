@@ -246,3 +246,18 @@ describe("GET/api/articles/:article_id/comments", () => {
       });
   });
 });
+
+describe.only("POST/api/:article_id/comments", () => {
+  test("200: returns an object", () => {
+    return request(app)
+      .post("/api/articles/1/comments")
+      .send({
+        username: "rogersop",
+        body: "This is the greatest thing I've ever read",
+      })
+      .expect(200)
+      .then((res) => {
+        expect(typeof res.body).toBe("object");
+      });
+  });
+});
