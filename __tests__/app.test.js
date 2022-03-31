@@ -166,13 +166,30 @@ describe("GET/api/users", () => {
   });
 });
 
-describe("/api/articles", () => {
+describe.only("/api/articles", () => {
   test("200, response with an array", () => {
     return request(app)
       .get("/api/articles")
       .expect(200)
       .then((res) => {
         expect(res.body).toBeInstanceOf(Array);
+      });
+  });
+  test("200: responds with updated comments", () => {
+    return request(app)
+      .get("/api/articles")
+      .expect(200)
+      .then((res) => {
+        expect(res.body[0].comment_count).toEqual(11);
+        expect(res.body[1].comment_count).toEqual(0);
+      });
+  });
+  test("404 error response if path incorrect", () => {
+    return request(app)
+      .get("/api/atile")
+      .expect(404)
+      .then((res) => {
+        expect(res.body.message).toBe("path not found");
       });
   });
 });

@@ -37,10 +37,17 @@ exports.updateVotes = async (articleId, update) => {
 exports.selectArticles = async () => {
   const articles = await db.query("SELECT * FROM articles");
   const comments = await db.query("SELECT * FROM comments");
-  let commentCount = 0;
-  comments.rows.forEach((comment) => {
-    if (comment.article_id == articleId) {
-      commentCount++;
-    }
+  let articleArray = [];
+  articles.rows.forEach((article) => {
+    let commentCount = 0;
+    comments.rows.forEach((comment) => {
+      if (comment.article_id === article.article_id) {
+        commentCount++;
+      }
+    });
+    article.comment_count = commentCount;
+    articleArray.push(article);
   });
+  console.log(articleArray, "<<< in the model");
+  return articleArray;
 };

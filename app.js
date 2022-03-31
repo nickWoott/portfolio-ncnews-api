@@ -18,7 +18,7 @@ app.patch("/api/articles/:article_id", increaseVotes);
 
 app.get("/api/users", getUsers);
 
-// app.get("/api/articles", getArticles);
+app.get("/api/articles", getArticles);
 
 //below is error handling
 app.use((req, res, next) => {
