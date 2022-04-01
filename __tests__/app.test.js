@@ -239,13 +239,40 @@ describe("GET/api/articles/:article_id/comments", () => {
 });
 
 describe.only("GET/api/articles/?=sort_by?=order?=topic", () => {
-  test("sort_by defaults to sorted by date", () => {
+  test("200: sort_by defaults to sorted by date", () => {
     return request(app)
       .get("/api/articles?order=asc")
       .expect(200)
       .then((res) => {
         console.log(res.body);
         expect(res.body).toBeSortedBy("created_at", { ascending: true });
+      });
+  });
+  test("200: sorts by user selected query and order", () => {
+    return request(app)
+      .get("/api/articles?order=desc&sort_by=author")
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toBeSortedBy("author", { descending: true });
+      });
+  });
+  test("200: sorts by user selected query, order and topic", () => {
+    return request(app)
+      .get("/api/articles?order=desc&sort_by=author&topic=cats")
+      .expect(200)
+      .then((res) => {
+        res.body.forEach((article) => {
+          expect(article.topic).toBe("cats");
+        });
+        expect(res.body).toBeSortedBy("author", { descending: true });
+      });
+  });
+  test("400: if search parameters are incorrect", () => {
+    return request(app)
+      .get("/api/articles?order=desc&sort_by=pig&topic=mud")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.message).toBe("Bad Request");
       });
   });
 });

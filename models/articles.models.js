@@ -35,19 +35,18 @@ exports.updateVotes = async (articleId, update) => {
 
 exports.selectArticles = async (
   sortQuery = "created_at",
-  orderQuery = "ASC"
+  orderQuery = "ASC",
+  topicQuery
 ) => {
   let queryString = `SELECT articles.*, COUNT(comments.article_id)::INT AS comment_count
   FROM articles 
   LEFT JOIN comments ON comments.article_id = articles.article_id`; //WHERE goes after the join  >>  groupby   >>  orderby
-
+  if (topicQuery) {
+    queryString += ` WHERE topic = '${topicQuery}'`;
+  }
   queryString += ` GROUP BY articles.article_id`;
-
-  queryString += ` ORDER BY ${sortQuery} ${orderQuery}`;
-
+  queryString += ` ORDER BY ${sortQuery} ${orderQuery};`;
   const response = await db.query(queryString);
-
-  console.log(response.rows);
   return response.rows;
 };
 
