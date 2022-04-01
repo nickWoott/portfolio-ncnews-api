@@ -4,6 +4,7 @@ const {
   updateVotes,
   selectArticles,
   selectComments,
+  insertComment,
 } = require("../models/articles.models");
 
 exports.getArticleById = (req, res, next) => {
@@ -50,6 +51,19 @@ exports.getComments = (req, res, next) => {
       res.status(200).send(comments);
     })
     .catch((err) => {
+      next(err);
+    });
+};
+
+exports.postComment = (req, res, next) => {
+  const { article_id } = req.params;
+  const update = req.body;
+  insertComment(article_id, update)
+    .then((newComment) => {
+      res.status(201).send(newComment.rows[0]);
+    })
+    .catch((err) => {
+      console.log(err);
       next(err);
     });
 };

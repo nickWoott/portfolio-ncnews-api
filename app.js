@@ -4,6 +4,7 @@ const {
   getArticleById,
   increaseVotes,
   getComments,
+  postComment,
 } = require("./controllers/articles.controllers");
 const { getTopics } = require("./controllers/topics.controllers");
 const { getUsers } = require("./controllers/users.controllers");
@@ -22,6 +23,8 @@ app.get("/api/users", getUsers);
 app.get("/api/articles", getArticles);
 
 app.get("/api/articles/:article_id/comments", getComments);
+
+app.post("/api/articles/:article_id/comments", postComment);
 
 //below is error handling
 app.use((req, res, next) => {
@@ -44,15 +47,20 @@ app.use((err, req, res, next) => {
 
 app.use((err, req, res, next) => {
   //psql error handling
-  if (err.code === "22P02") {
-    res.status(400).send({ message: "Bad Request" });
+  if (err.code === "22P02" || err.code === "23502") {
+    res.status(400).send({ msg: "Bad Request" });
   } else {
     next(err);
   }
 });
 
 app.use((err, req, res, next) => {
-  console.log(err);
+  if (err.code === "23503") {
+    res.status(404).send({ msg: "article not found" });
+  }
+});
+
+app.use((err, req, res, next) => {
   res.status(500).send({ message: "internal server error" });
 });
 module.exports = app;

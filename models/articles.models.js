@@ -62,3 +62,11 @@ exports.selectComments = async (articleId) => {
     return comments.rows;
   }
 };
+
+exports.insertComment = async (article_id, update) => {
+  const postedComment = await db.query(
+    "INSERT INTO comments (body, author, article_id) VALUES ($1, $2, $3) RETURNING *;",
+    [update.body, update.username, article_id]
+  );
+  return postedComment;
+};
