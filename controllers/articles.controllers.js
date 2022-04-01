@@ -35,7 +35,10 @@ exports.increaseVotes = (req, res, next) => {
 };
 
 exports.getArticles = (req, res, next) => {
-  selectArticles()
+  const orderQuery = req.query.order;
+  const sortQuery = req.query.sort_by;
+  const topicQuery = req.query.topic;
+  selectArticles(sortQuery, orderQuery, topicQuery)
     .then((articles) => {
       res.status(200).send(articles);
     })

@@ -42,7 +42,6 @@ describe("GET/api/topics", () => {
         expect(res.body).toEqual(output);
       });
   });
-
   test("404, throws error when endpoint not found", async () => {
     const results = await request(app).get("/api/topic").expect(404);
     expect(results.body.message).toBe("path not found");
@@ -180,6 +179,7 @@ describe("/api/articles", () => {
       .get("/api/articles")
       .expect(200)
       .then((res) => {
+        console.log(res.body);
         res.body.forEach((article) => {
           expect(article).toMatchObject({
             author: expect.any(String),
@@ -191,15 +191,6 @@ describe("/api/articles", () => {
             comment_count: expect.any(Number),
           });
         });
-      });
-  });
-  test("200: responds with correct comments value", () => {
-    return request(app)
-      .get("/api/articles")
-      .expect(200)
-      .then((res) => {
-        expect(res.body[0].comment_count).toEqual(11);
-        expect(res.body[1].comment_count).toEqual(0);
       });
   });
   test("404 error response if path incorrect", () => {
@@ -247,7 +238,7 @@ describe("GET/api/articles/:article_id/comments", () => {
   });
 });
 
-describe.only("POST/api/:article_id/comments", () => {
+describe("POST/api/:article_id/comments", () => {
   test("201: returns an object", () => {
     return request(app)
       .post("/api/articles/1/comments")
@@ -288,7 +279,7 @@ describe.only("POST/api/:article_id/comments", () => {
       })
       .expect(400)
       .then((res) => {
-        expect(res.body.msg).toBe("Bad Request");
+        expect(res.body.message).toBe("Bad Request");
       });
   });
   test("400: invalid article id", () => {
@@ -300,7 +291,7 @@ describe.only("POST/api/:article_id/comments", () => {
       })
       .expect(400)
       .then((res) => {
-        expect(res.body.msg).toBe("Bad Request");
+        expect(res.body.message).toBe("Bad Request");
       });
   });
   test("404: article not found", () => {
@@ -313,6 +304,45 @@ describe.only("POST/api/:article_id/comments", () => {
       .expect(404)
       .then((res) => {
         expect(res.body.msg).toBe("article not found");
+      });
+  });
+});
+
+describe("GET/api/articles/?=sort_by?=order?=topic", () => {
+  test("200: sort_by defaults to sorted by date", () => {
+    return request(app)
+      .get("/api/articles?order=asc")
+      .expect(200)
+      .then((res) => {
+        console.log(res.body);
+        expect(res.body).toBeSortedBy("created_at", { ascending: true });
+      });
+  });
+  test("200: sorts by user selected query and order", () => {
+    return request(app)
+      .get("/api/articles?order=desc&sort_by=author")
+      .expect(200)
+      .then((res) => {
+        expect(res.body).toBeSortedBy("author", { descending: true });
+      });
+  });
+  test("200: sorts by user selected query, order and topic", () => {
+    return request(app)
+      .get("/api/articles?order=desc&sort_by=author&topic=cats")
+      .expect(200)
+      .then((res) => {
+        res.body.forEach((article) => {
+          expect(article.topic).toBe("cats");
+        });
+        expect(res.body).toBeSortedBy("author", { descending: true });
+      });
+  });
+  test("400: if search parameters are incorrect", () => {
+    return request(app)
+      .get("/api/articles?order=desc&sort_by=pig&topic=mud")
+      .expect(400)
+      .then((res) => {
+        expect(res.body.message).toBe("Bad Request");
       });
   });
 });
