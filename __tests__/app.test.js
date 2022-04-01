@@ -346,3 +346,15 @@ describe("GET/api/articles/?=sort_by?=order?=topic", () => {
       });
   });
 });
+
+describe.only("GET /api", () => {
+  test("returns an object", () => {
+    return request(app)
+      .get("/api")
+      .expect(200)
+      .then((res) => {
+        console.log(res.body);
+        expect(typeof res.body).toBe("object");
+      });
+  });
+});
