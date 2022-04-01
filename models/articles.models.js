@@ -40,7 +40,7 @@ exports.selectArticles = async (
 ) => {
   let queryString = `SELECT articles.*, COUNT(comments.article_id)::INT AS comment_count
   FROM articles 
-  LEFT JOIN comments ON comments.article_id = articles.article_id`; //WHERE goes after the join  >>  groupby   >>  orderby
+  LEFT JOIN comments ON comments.article_id = articles.article_id`;
   if (topicQuery) {
     queryString += ` WHERE topic = '${topicQuery}'`;
   }

@@ -1,4 +1,5 @@
 const express = require("express");
+const { application_name } = require("pg/lib/defaults");
 const {
   getArticles,
   getArticleById,
@@ -8,6 +9,7 @@ const {
 } = require("./controllers/articles.controllers");
 const { getTopics } = require("./controllers/topics.controllers");
 const { getUsers } = require("./controllers/users.controllers");
+const { deleteComment } = require("./controllers/comments.controllers");
 const app = express();
 
 app.use(express.json());
@@ -25,6 +27,8 @@ app.get("/api/articles", getArticles);
 app.get("/api/articles/:article_id/comments", getComments);
 
 app.post("/api/articles/:article_id/comments", postComment);
+
+app.delete("/api/comments/:comment_id", deleteComment);
 
 //below is error handling
 app.use((req, res, next) => {

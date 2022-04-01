@@ -342,7 +342,18 @@ describe("GET/api/articles/?=sort_by?=order?=topic", () => {
       .get("/api/articles?order=desc&sort_by=pig&topic=mud")
       .expect(400)
       .then((res) => {
-        expect(res.body.message).toBe("Bad Request");
+        expect(res.body.message).toBe("Bad Request"); //this would be better done with a db query to check it doesn't exsist.
+      });
+  });
+});
+
+describe("DELETE/api/comments/:comment_id", () => {
+  test("204, repsons with an empty response body and no content", () => {
+    return request(app)
+      .delete("/api/comments/1")
+      .expect(204)
+      .then(() => {
+        expect(res.body).toBe(undefined);
       });
   });
 });
