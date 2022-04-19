@@ -1,4 +1,5 @@
 const express = require("express");
+const cors = require("cors");
 const { application_name } = require("pg/lib/defaults");
 const {
   getArticles,
@@ -12,6 +13,8 @@ const { getUsers } = require("./controllers/users.controllers");
 const { deleteComment } = require("./controllers/comments.controllers");
 const { getEndpoints } = require("./controllers/api.controllers");
 const app = express();
+
+app.use(cors());
 
 app.use(express.json());
 
