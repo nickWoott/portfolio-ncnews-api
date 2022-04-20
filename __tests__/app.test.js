@@ -92,7 +92,7 @@ describe("GET/api/atircles/:article_id", () => {
 });
 
 describe("PATCH/api/articles/:article_id", () => {
-  test("returns an object in as a response", () => {
+  test.only("returns an object in as a response", () => {
     return request(app)
       .patch("/api/articles/2")
       .send({ inc_votes: 1 })
@@ -358,13 +358,12 @@ describe("DELETE/api/comments/:comment_id", () => {
   });
 });
 
-describe.only("GET /api", () => {
+describe("GET /api", () => {
   test("returns an object", () => {
     return request(app)
       .get("/api")
       .expect(200)
       .then((res) => {
-        console.log(res.body);
         expect(typeof res.body).toBe("object");
       });
   });

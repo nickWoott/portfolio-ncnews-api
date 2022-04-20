@@ -22,13 +22,14 @@ exports.selectArticle = async (articleId) => {
 
 exports.updateVotes = async (articleId, update) => {
   const results = await db.query(
-    "SELECT * FROM articles WHERE article_id = $1",
-    [articleId]
+    `UPDATE articles 
+    SET votes=votes+$2 
+    WHERE article_id = $1 
+    RETURNING *`,
+    [articleId, update]
   );
   if (!results.rows.length) {
     return Promise.reject({ status: 404, msg: "Article not found" });
-  } else {
-    results.rows[0].votes += update.inc_votes;
   }
   return results.rows[0];
 };

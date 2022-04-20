@@ -20,10 +20,11 @@ exports.getArticleById = (req, res, next) => {
 
 exports.increaseVotes = (req, res, next) => {
   articleId = req.params.article_id;
-  update = req.body;
-  updateVotes(articleId, update)
+  const { inc_votes } = req.body;
+
+  updateVotes(articleId, inc_votes)
     .then((article) => {
-      if (typeof update.inc_votes !== "number" || !update.inc_votes) {
+      if (typeof inc_votes !== "number" || !inc_votes) {
         return Promise.reject({ status: 400, msg: "Bad Request!" });
       } else {
         res.status(200).send(article);
@@ -33,6 +34,7 @@ exports.increaseVotes = (req, res, next) => {
       next(err);
     });
 };
+//all promises rejects need to be in the model
 
 exports.getArticles = (req, res, next) => {
   const orderQuery = req.query.order;
