@@ -4,7 +4,7 @@ const {
   updateVotes,
   selectArticles,
   selectComments,
-  insertComment,
+  insertComment,  
 } = require("../models/articles.models");
 
 exports.getArticleById = (req, res, next) => {
@@ -15,7 +15,7 @@ exports.getArticleById = (req, res, next) => {
     })
     .catch((err) => {
       next(err);
-    });
+    });``
 };
 
 exports.increaseVotes = (req, res, next) => {

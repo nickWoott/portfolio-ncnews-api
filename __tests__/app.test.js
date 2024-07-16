@@ -4,11 +4,13 @@ const request = require("supertest");
 const testData = require("../db/data/test-data");
 const seed = require("../db/seeds/seed");
 const res = require("express/lib/response");
-
+// now we need to figure out how the tests are working
+// i wonder how this is going
 afterAll(() => {
   if (db.end) db.end();
 });
 
+// so this is the thing that seeds the test data.
 beforeEach(() => seed(testData));
 
 describe("GET/api/topics", () => {
