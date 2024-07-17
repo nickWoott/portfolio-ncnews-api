@@ -16,22 +16,22 @@ const { getEndpoints } = require('../controllers/api.controllers');
 
 router.get('../the name', thecontroller);
 
-app.get('/topics', getTopics);
+router.get('/topics', getTopics);
 
-app.get('/articles/:article_id', getArticleById);
+router.get('/articles/:article_id', getArticleById);
 
-app.patch('/articles/:article_id', increaseVotes);
+router.patch('/articles/:article_id', increaseVotes);
 
-app.get('/users', getUsers);
+router.get('/users', getUsers);
 
-app.get('/articles', getArticles);
+router.get('/articles', getArticles);
 
-app.get('/articles/:article_id/comments', getComments);
+router.get('/articles/:article_id/comments', getComments);
 
-app.post('/articles/:article_id/comments', postComment);
+router.post('/articles/:article_id/comments', postComment);
 
-app.delete('/comments/:comment_id', deleteComment);
+router.delete('/comments/:comment_id', deleteComment);
 
-app.get('/', getEndpoints);
+router.get('/', getEndpoints);
 
 module.exports = router;
