@@ -14,8 +14,6 @@ const { getUsers } = require('../controllers/users.controllers');
 const { deleteComment } = require('../controllers/comments.controllers');
 const { getEndpoints } = require('../controllers/api.controllers');
 
-router.get('../the name', thecontroller);
-
 router.get('/topics', getTopics);
 
 router.get('/articles/:article_id', getArticleById);
